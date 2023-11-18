@@ -1,78 +1,89 @@
 import 'package:flutter/material.dart';
-import 'quiz_screen.dart';  // Update this path to the location of your quiz_screen.dart
+import 'quiz_screen.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class ContinentSelectionScreen extends StatelessWidget {
+  final AudioPlayer player = AudioPlayer();
+
+  ContinentSelectionScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Select Continent'),
+        title: const Text('Select Continent'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                await player.play(UrlSource('assets/sounds/button_press.mp3'));
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => QuizScreen(continent: 'africa'),
+                  builder: (context) => const QuizScreen(continent: 'africa'),
                 ));
               },
-              child: Text('Africa'),
+              child: const Text('Africa'),
             ),
-            SizedBox(height: 20),  // Spacing between buttons
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                await player.play(UrlSource('assets/sounds/button_press.mp3'));
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => QuizScreen(continent: 'asia'),
+                  builder: (context) => const QuizScreen(continent: 'asia'),
                 ));
               },
-              child: Text('Asia'),
+              child: const Text('Asia'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                await player.play(UrlSource('assets/sounds/button_press.mp3'));
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => QuizScreen(continent: 'europe'),
+                  builder: (context) => const QuizScreen(continent: 'europe'),
                 ));
               },
-              child: Text('Europe'),
+              child: const Text('Europe'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                await player.play(UrlSource('assets/sounds/button_press.mp3'));
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => QuizScreen(continent: 'North America'),
+                  builder: (context) => const QuizScreen(continent: 'North America'),
                 ));
               },
-              child: Text('North America'),
+              child: const Text('North America'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                await player.play(UrlSource('assets/sounds/button_press.mp3'));
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => QuizScreen(continent: 'South America'),
+                  builder: (context) => const QuizScreen(continent: 'South America'),
                 ));
               },
-              child: Text('South America'),
+              child: const Text('South America'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                await player.play(UrlSource('assets/sounds/button_press.mp3'));
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => QuizScreen(continent: 'oceania'),
+                  builder: (context) => const QuizScreen(continent: 'oceania'),
                 ));
               },
-              child: Text('Oceania'),
+              child: const Text('Oceania'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
+                await player.play(UrlSource('assets/sounds/button_press.mp3'));
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => QuizScreen(continent: 'all'),
+                  builder: (context) => const QuizScreen(continent: 'all'),
                 ));
               },
-              child: Text('All Countries'),
+              child: const Text('All Countries'),
             ),
           ],
         ),

@@ -102,11 +102,11 @@ Vietnam,assets/flags/asia/vietnam.png,Asia
 Yemen,assets/flags/asia/yemen.png,Asia
 Palestine,assets/flags/asia/palestine.png,Asia
 Albania,assets/flags/europe/albania.png,Europe
-Andorra,assets/flags/europe/andora.png,Europe
+Andorra,assets/flags/europe/andorra.png,Europe
 Austria,assets/flags/europe/austria.png,Europe
 Belarus,assets/flags/europe/belarus.png,Europe
 Belgium,assets/flags/europe/belgium.png,Europe
-Bosnia and Herzegovina,assets/flags/europe/bosina_and_herzegovina.png,Europe
+Bosnia and Herzegovina,assets/flags/europe/bosnia.png,Europe
 Bulgaria,assets/flags/europe/bulgaria.png,Europe
 Croatia,assets/flags/europe/croatia.png,Europe
 Cyprus,assets/flags/europe/cyprus.png,Europe
@@ -167,7 +167,7 @@ Nicaragua,assets/flags/north_america/nicaragua.png,North America
 Panama,assets/flags/north_america/panama.png,North America
 Puerto Rico,assets/flags/north_america/puerto_rico.png,North America
 Saint Kitts and Nevis,assets/flags/north_america/saint_kitts_and_nevis.png,North America
-Saint Lucia,assets/flags/north_america/saint_lucia.png,North America
+Saint Lucia,assets/flags/north_america/st_lucia.png,North America
 Saint Vincent and the Grenadines,assets/flags/north_america/saint_vincent_and_the_grenadines.png,North America
 USA,assets/flags/north_america/usa.png,North America
 Argentina,assets/flags/south_america/argentina.png,South America
@@ -175,7 +175,7 @@ Bolivia,assets/flags/south_america/bolivia.png,South America
 Brazil,assets/flags/south_america/brazil.png,South America
 Chile,assets/flags/south_america/chile.png,South America
 Colombia,assets/flags/south_america/colombia.png,South America
-Ecuador,assets/flags/south_america/ecudaor.png,South America
+Ecuador,assets/flags/south_america/ecuador.png,South America
 Guyana,assets/flags/south_america/guyana.png,South America
 Paraguay,assets/flags/south_america/paraguay.png,South America
 Peru,assets/flags/south_america/peru.png,South America
