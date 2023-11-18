@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import '../utilities/data_loader.dart';
 import 'package:audioplayers/audioplayers.dart';
+import '../utilities/database_helper.dart';
 
 class QuizScreen extends StatefulWidget {
   final String continent;
@@ -14,10 +14,10 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   final AudioPlayer player = AudioPlayer();
-  List<List<dynamic>> allCountries = [];
-  List<List<dynamic>> unshownCountries = [];
-  List<dynamic>? correctCountry;
-  List<List<dynamic>>? answerOptions;
+  List<Map<String, dynamic>> allCountries = [];
+  List<Map<String, dynamic>> unshownCountries = [];
+  Map<String, dynamic>? correctCountry;
+  List<Map<String, dynamic>>? answerOptions;
   List<String> incorrectAnswers = [];
   List<String> disabledOptions = [];
   int currentQuestionNumber = 0;
@@ -30,22 +30,20 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   loadData() async {
-    allCountries = await loadCsvData();
-    allCountries.removeAt(0);
-    allCountries = filterByContinent(allCountries, widget.continent);
+    allCountries = await DatabaseHelper.instance.fetchCountriesByContinent(widget.continent);
     unshownCountries = List.from(allCountries);
     loadQuestion();
   }
 
   loadQuestion() {
-    if (lives <= 0) {
-      showEndOfQuizDialog();
+    if (lives <= 0 || unshownCountries.isEmpty) {
+      checkGameOver();
       return;
     }
 
     correctCountry = getRandomCountry();
     if (correctCountry == null || correctCountry!.isEmpty) {
-      showEndOfQuizDialog();
+      checkGameOver();
       return;
     }
     answerOptions = getAnswerOptions(correctCountry);
@@ -53,49 +51,51 @@ class _QuizScreenState extends State<QuizScreen> {
     setState(() {});
   }
 
-  List<dynamic> getRandomCountry() {
+  Map<String, dynamic> getRandomCountry() {
     if (unshownCountries.isEmpty) {
-      return [];
+      return {};
     }
 
     final random = Random();
     int randomIndex = random.nextInt(unshownCountries.length);
-    List<dynamic> randomCountry = unshownCountries[randomIndex];
+    Map<String, dynamic> randomCountry = unshownCountries[randomIndex];
     unshownCountries.removeAt(randomIndex);
     return randomCountry;
   }
 
-  List<List<dynamic>> getAnswerOptions(List<dynamic>? correctCountry) {
+  List<Map<String, dynamic>> getAnswerOptions(Map<String, dynamic>? correctCountry) {
     final random = Random();
-    List<List<dynamic>> options = [correctCountry!];
-    List<List<dynamic>> tempCountries = List.from(allCountries);
+    List<Map<String, dynamic>> options = [correctCountry!];
+    List<Map<String, dynamic>> tempCountries = List.from(allCountries);
+
+    tempCountries.removeWhere((country) => country['country_name'] == correctCountry['country_name']);
 
     while (options.length < 4) {
       int randomIndex = random.nextInt(tempCountries.length);
-      List<dynamic> randomCountry = tempCountries[randomIndex];
-      if (!options.contains(randomCountry)) {
-        options.add(randomCountry);
-        tempCountries.removeAt(randomIndex);
-      }
+      Map<String, dynamic> randomCountry = tempCountries[randomIndex];
+      options.add(randomCountry);
+      tempCountries.removeAt(randomIndex);
     }
 
     options.shuffle();
     return options;
   }
 
-  void showEndOfQuizDialog() async {
-    if (lives <=0) {
-      await player.play(UrlSource('assets/sounds/lose.wav'));
-    } else {
-      await player.play(UrlSource('assets/sounds/win.wav'));
+  void checkGameOver() {
+    bool isWin = unshownCountries.isEmpty && lives > 0;
+    showEndOfQuizDialog(isWin);
+  }
 
-    }
+  void showEndOfQuizDialog(bool isWin) async {
+    String soundFile = isWin ? 'assets/sounds/win.wav' : 'assets/sounds/lose.wav';
+    await player.play(UrlSource(soundFile));
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(lives <= 0 ? 'Game Over!' : 'Well done!'),
-          content: Text(lives <= 0 ? 'You lost all your lives.' : 'Quiz done'),
+          title: Text(isWin ? 'Well done!' : 'Game Over!'),
+          content: Text(isWin ? 'Quiz done' : 'You lost all your lives.'),
           actions: <Widget>[
             TextButton(
               child: const Text('Restart Quiz'),
@@ -137,7 +137,9 @@ class _QuizScreenState extends State<QuizScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
+            // ... (rest of your build method
+
+          Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Row(
@@ -155,7 +157,7 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
             const SizedBox(height: 20),
             correctCountry != null
-                ? Image.asset(correctCountry![1], width: 200, height: 200)
+                ? Image.asset('${correctCountry!['flag_image_path']}', width: 200, height: 200)
                 : Container(),
             const SizedBox(height: 20),
             Expanded(
@@ -174,11 +176,11 @@ class _QuizScreenState extends State<QuizScreen> {
                       padding: MaterialStateProperty.all(const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0)),
                       backgroundColor: MaterialStateProperty.resolveWith<Color>(
                             (Set<MaterialState> states) {
-                          if (disabledOptions.contains(answerOptions![index][0])) {
+                          if (disabledOptions.contains(answerOptions![index]['country_name'])) {
                             return Colors.red;
                           }
                           if (states.contains(MaterialState.pressed)) {
-                            if (answerOptions![index][0] == correctCountry![0]) {
+                            if (answerOptions![index]['country_name'] == correctCountry!['country_name']) {
                               return Colors.green;
                             }
                           }
@@ -188,27 +190,29 @@ class _QuizScreenState extends State<QuizScreen> {
                       side: MaterialStateProperty.all(const BorderSide(color: Colors.black)),
                       foregroundColor: MaterialStateProperty.all(Colors.black),
                     ),
-                    onPressed: disabledOptions.contains(answerOptions![index][0])
+                    // Inside the ElevatedButton's onPressed callback
+                    onPressed: disabledOptions.contains(answerOptions![index]['country_name']) || lives <= 0
                         ? null
                         : () async {
-                      if (answerOptions![index][0] == correctCountry![0]) {
+                      if (answerOptions![index]['country_name'] == correctCountry!['country_name']) {
                         await player.play(UrlSource('assets/sounds/correct_answer.mp3'));
                         incorrectAnswers.clear();
                         disabledOptions.clear();
                         loadQuestion();
                       } else {
                         await player.play(UrlSource('assets/sounds/incorrect_answer.mp3'));
-                        incorrectAnswers.add(answerOptions![index][0]);
-                        disabledOptions.add(answerOptions![index][0]);
-                        lives--;
-                        if (lives <= 0) {
-                          showEndOfQuizDialog();
+                        incorrectAnswers.add(answerOptions![index]['country_name']);
+                        disabledOptions.add(answerOptions![index]['country_name']);
+                        if (--lives <= 0) {
+                          setState(() {});
+                          // Don't call showEndOfQuizDialog here, loadQuestion will handle it
                         } else {
                           setState(() {});
                         }
                       }
                     },
-                    child: Text(answerOptions![index][0]),
+
+                    child: Text(answerOptions![index]['country_name']),
                   );
                 },
               ),

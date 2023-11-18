@@ -9,7 +9,7 @@ class FlagQuizApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flag Quiz',
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.green,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Colors.blue.shade50),

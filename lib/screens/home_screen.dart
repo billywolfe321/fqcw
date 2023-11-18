@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:universal_platform/universal_platform.dart';
 import 'continent_selection_screen.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'daily_question_screen.dart';
 
 class StartScreen extends StatelessWidget {
   final AudioPlayer player = AudioPlayer();
@@ -14,108 +13,82 @@ class StartScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.brown.shade50,
       appBar: AppBar(
-        title: const Text('Flags Of The World!!!'),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Image.asset(
-              'assets/bg/bg.jpg',
-              fit: BoxFit.fill,
-            ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () async {
+              await player.play(UrlSource('assets/sounds/button_press.mp3'));
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => MenuScreen(),
+              ));
+            },
           ),
-          Expanded(
-            flex: 1,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  buildButton(
-                    context: context,
-                    onPressed: () async {
-                      await player.play(UrlSource('assets/sounds/button_press.mp3'));
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ContinentSelectionScreen(),
-                      ));
-                    },
-                    icon: Icons.play_arrow,
-                    label: 'Start',
-                  ),
-                  const SizedBox(height: 15),
-                  buildButton(
-                    context: context,
-                    onPressed: () async {
-                      await player.play(UrlSource('assets/sounds/button_press.mp3'));
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MenuScreen(),
-                      ));
-                    },
-                    icon: Icons.menu,
-                    label: 'Menu',
-                  ),
-                  const SizedBox(height: 15),
-                  buildButton(
-                    context: context,
-                    onPressed: () async {
-                      await player.play(UrlSource('assets/sounds/button_press.mp3'));
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text('Exit App'),
-                            content: const Text('Are you sure you want to exit?'),
-                            actions: <Widget>[
-                              TextButton(
-                                child: const Text('Stay'),
-                                onPressed: () async {
-                                  await player.play(UrlSource('assets/sounds/button_press.mp3'));
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                child: const Text('Exit'),
-                                onPressed: () async {
-                                  await player.play(UrlSource('assets/sounds/button_press.mp3'));
-                                  if (UniversalPlatform.isWeb) {
-                                    SystemNavigator.pop();
-                                  } else {
-                                    SystemNavigator.pop();
-                                  }
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    icon: Icons.exit_to_app,
-                    label: 'Exit',
-                  ),
-                ],
+        ],
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Flaggin good',
+              style: TextStyle(
+                fontSize: 72.0,
+                fontFamily: 'MyCustomFont',
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildButton({
-    required BuildContext context,
-    required VoidCallback onPressed,
-    required IconData icon,
-    required String label,
-  }) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon),
-          const SizedBox(height: 5),
-          Text(label),
-        ],
+            const SizedBox(height: 50),
+            ElevatedButton(
+              onPressed: () async {
+                await player.play(UrlSource('assets/sounds/button_press.mp3'));
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ContinentSelectionScreen(),
+                ));
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                child: Text(
+                  'Play',
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontFamily: 'MyCustomFont',
+                  ),
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                await player.play(UrlSource('assets/sounds/button_press.mp3'));
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => DailyQuestionScreen(), // Navigate to DailyQuestionScreen
+                ));
+                // Implement Daily Challenge functionality
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                child: Text(
+                  'Daily Challenge',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'MyCustomFont',
+                  ),
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -129,18 +102,36 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Menu'),
+        title: const Text('Settings'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(
+ElevatedButton(
               onPressed: () async {
                 await player.play(UrlSource('assets/sounds/button_press.mp3'));
-
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('How To Play'),
+                      content: const Text('Here is how to play'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('Close'),
+                          onPressed: () async {
+                            await player.play(UrlSource('assets/sounds/button_press.mp3'));
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
-              child: const Text('no'),
+              child: const Text('How To Play'),
+
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -151,7 +142,7 @@ class MenuScreen extends StatelessWidget {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text('About Me'),
-                      content: const Text('hellotest'),
+                      content: const Text('This is a description about me.'),
                       actions: <Widget>[
                         TextButton(
                           child: const Text('Close'),
@@ -176,7 +167,7 @@ class MenuScreen extends StatelessWidget {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text('Contact Me'),
-                      content: const Text('Hellotest'),
+                      content: const Text('Here is how you can contact me.'),
                       actions: <Widget>[
                         TextButton(
                           child: const Text('Close'),

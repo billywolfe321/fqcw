@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'quiz_screen.dart';
 import 'package:audioplayers/audioplayers.dart';
 
+
 class ContinentSelectionScreen extends StatelessWidget {
   final AudioPlayer player = AudioPlayer();
 
@@ -20,7 +21,7 @@ class ContinentSelectionScreen extends StatelessWidget {
               onPressed: () async {
                 await player.play(UrlSource('assets/sounds/button_press.mp3'));
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const QuizScreen(continent: 'africa'),
+                  builder: (context) => const QuizScreen(continent: 'Africa'),
                 ));
               },
               child: const Text('Africa'),
@@ -30,7 +31,7 @@ class ContinentSelectionScreen extends StatelessWidget {
               onPressed: () async {
                 await player.play(UrlSource('assets/sounds/button_press.mp3'));
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const QuizScreen(continent: 'asia'),
+                  builder: (context) => const QuizScreen(continent: 'Asia'),
                 ));
               },
               child: const Text('Asia'),
@@ -40,7 +41,7 @@ class ContinentSelectionScreen extends StatelessWidget {
               onPressed: () async {
                 await player.play(UrlSource('assets/sounds/button_press.mp3'));
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const QuizScreen(continent: 'europe'),
+                  builder: (context) => const QuizScreen(continent: 'Europe'),
                 ));
               },
               child: const Text('Europe'),
@@ -70,7 +71,7 @@ class ContinentSelectionScreen extends StatelessWidget {
               onPressed: () async {
                 await player.play(UrlSource('assets/sounds/button_press.mp3'));
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const QuizScreen(continent: 'oceania'),
+                  builder: (context) => const QuizScreen(continent: 'Oceania'),
                 ));
               },
               child: const Text('Oceania'),
