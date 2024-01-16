@@ -24,7 +24,19 @@ class ContinentSelectionScreen extends StatelessWidget {
                   builder: (context) => const QuizScreen(continent: 'Africa'),
                 ));
               },
-              child: const Text('Africa'),
+              child: Text(
+                'Africa',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontFamily: 'MyCustomFont',
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -34,7 +46,19 @@ class ContinentSelectionScreen extends StatelessWidget {
                   builder: (context) => const QuizScreen(continent: 'Asia'),
                 ));
               },
-              child: const Text('Asia'),
+              child: Text(
+                'Asia',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontFamily: 'MyCustomFont',
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -44,7 +68,19 @@ class ContinentSelectionScreen extends StatelessWidget {
                   builder: (context) => const QuizScreen(continent: 'Europe'),
                 ));
               },
-              child: const Text('Europe'),
+              child: Text(
+                'Europe',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontFamily: 'MyCustomFont',
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -54,7 +90,19 @@ class ContinentSelectionScreen extends StatelessWidget {
                   builder: (context) => const QuizScreen(continent: 'North America'),
                 ));
               },
-              child: const Text('North America'),
+              child: Text(
+                'North America',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontFamily: 'MyCustomFont',
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -64,7 +112,19 @@ class ContinentSelectionScreen extends StatelessWidget {
                   builder: (context) => const QuizScreen(continent: 'South America'),
                 ));
               },
-              child: const Text('South America'),
+              child: Text(
+                'South America',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontFamily: 'MyCustomFont',
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -74,7 +134,19 @@ class ContinentSelectionScreen extends StatelessWidget {
                   builder: (context) => const QuizScreen(continent: 'Oceania'),
                 ));
               },
-              child: const Text('Oceania'),
+              child: Text(
+                'Oceania',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontFamily: 'MyCustomFont',
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -84,8 +156,21 @@ class ContinentSelectionScreen extends StatelessWidget {
                   builder: (context) => const QuizScreen(continent: 'all'),
                 ));
               },
-              child: const Text('All Countries'),
+              child: Text(
+                'All Countries',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontFamily: 'MyCustomFont',
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
             ),
+      const SizedBox(height: 20),
           ],
         ),
       ),

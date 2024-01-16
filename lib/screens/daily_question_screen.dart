@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:math';
-import 'dart:ui';
+import '../utilities/database_helper.dart'; // Import your DatabaseHelper class
 
 class DailyQuestionScreen extends StatefulWidget {
   @override
@@ -9,9 +8,10 @@ class DailyQuestionScreen extends StatefulWidget {
 }
 
 class _DailyQuestionScreenState extends State<DailyQuestionScreen> {
-  String currentFlag = '';
-  double blurLevel = 5.0;
+  Map<String, dynamic>? currentFlag;
   bool alreadyAttempted = false;
+  int attempts = 0;
+  static const int maxAttempts = 3;
 
   @override
   void initState() {
@@ -25,38 +25,47 @@ class _DailyQuestionScreenState extends State<DailyQuestionScreen> {
       String lastAttemptDate = prefs.getString('lastAttemptDate') ?? '';
       String today = DateTime.now().toString().substring(0, 10);
 
-      if (lastAttemptDate != today) {
-        currentFlag = selectRandomFlag();
-        prefs.setString('lastAttemptDate', today);
-        prefs.setString('dailyFlag', currentFlag);
-        blurLevel = 5.0;
-        alreadyAttempted = false;
+      if (lastAttemptDate != today || !(prefs.getBool('challengeCompleted') ?? false)) {
+        print("Fetching new flag for today's challenge");
+        currentFlag = await DatabaseHelper.instance.fetchRandomFlag();
+        if (currentFlag != null) {
+          prefs.setString('lastAttemptDate', today);
+          prefs.setString('dailyFlag', currentFlag!['flagImagePath']);
+          prefs.setBool('challengeCompleted', false);
+          alreadyAttempted = false;
+          attempts = 0;
+        } else {
+          print("No flag returned from the database");
+        }
       } else {
-        currentFlag = prefs.getString('dailyFlag') ?? '';
-        alreadyAttempted = true;
+        String flagPath = prefs.getString('dailyFlag') ?? '';
+        if (flagPath.isNotEmpty) {
+          currentFlag = {'flagImagePath': flagPath};
+        }
+        alreadyAttempted = prefs.getBool('challengeCompleted') ?? false;
       }
-
-      print('Flag: $currentFlag, Blur: $blurLevel, Attempted: $alreadyAttempted');
-      setState(() {});
     } catch (e) {
       print('Error in checkDailyQuestion: $e');
     }
+
+    setState(() {});
   }
 
-  String selectRandomFlag() {
-    List<String> flags = ['flag1.png', 'flag2.png', 'flag3.png'];
-    final random = Random();
-    return flags[random.nextInt(flags.length)];
-  }
 
   void onAnswerAttempt(bool correct) {
-    if (correct) {
-      // Handle correct answer
-    } else {
-      setState(() {
-        blurLevel = max(0, blurLevel - 1); // Reduce blur
+    attempts++;
+    if (correct || attempts >= maxAttempts) {
+      SharedPreferences.getInstance().then((prefs) {
+        prefs.setBool('challengeCompleted', true);
+        if (correct) {
+          // Show success message
+        } else {
+          // Show failure message
+        }
       });
+      alreadyAttempted = true;
     }
+    setState(() {});
   }
 
   @override
@@ -69,12 +78,8 @@ class _DailyQuestionScreenState extends State<DailyQuestionScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            if (currentFlag.isNotEmpty) ...[
-              BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: blurLevel, sigmaY: blurLevel),
-                child: Image.asset('assets/flags/$currentFlag'),
-              ),
-              // Add your question and answer options here
+            if (currentFlag != null && !alreadyAttempted) ...[
+              Image.asset('assets/flags/${currentFlag!['flagImagePath']}')
               // Use onAnswerAttempt to handle answer attempts
             ] else if (alreadyAttempted) ...[
               Text('You have already attempted today\'s question.'),

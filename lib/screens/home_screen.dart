@@ -36,7 +36,15 @@ class StartScreen extends StatelessWidget {
                 fontFamily: 'MyCustomFont',
               ),
             ),
+            Text(
+              'A Flag game by Billy',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontFamily: 'MyCustomFont',
+              ),
+            ),
             const SizedBox(height: 50),
+
             ElevatedButton(
               onPressed: () async {
                 await player.play(UrlSource('assets/sounds/button_press.mp3'));
@@ -130,9 +138,20 @@ ElevatedButton(
                   },
                 );
               },
-              child: const Text('How To Play'),
-
-            ),
+                        child: Text(
+                          'How To Play',
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontFamily: 'MyCustomFont',
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
+                      ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {

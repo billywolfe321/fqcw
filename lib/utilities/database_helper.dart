@@ -52,6 +52,25 @@ class DatabaseHelper {
     return maps;
   }
 
+  // New method to fetch a random flag
+  Future<Map<String, dynamic>?> fetchRandomFlag() async {
+    Database db = await instance.database;
+    int? countResult = Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM mytable'));
+    int count = countResult ?? 0; // Provide a default value if countResult is null
+
+    if (count == 0) {
+      return null; // Return null if there are no entries in the table
+    }
+
+    var today = DateTime.now();
+    int randomIndex = (today.year + today.month + today.day) % count;
+    List<Map<String, dynamic>> result = await db.query(
+      'mytable',
+      limit: 1,
+      offset: randomIndex,
+    );
+    return result.isNotEmpty ? result.first : null;
+  }
 
 
 // Add other methods and logic as needed.
