@@ -82,20 +82,29 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void checkGameOver() {
-    bool isWin = unshownCountries.isEmpty && lives > 0;
-    showEndOfQuizDialog(isWin);
+    // Check if the game is over (either all flags guessed or no lives left)
+    bool isGameOver = unshownCountries.isEmpty || lives <= 0;
+
+    if (isGameOver) {
+      showEndOfQuizDialog();
+    }
   }
 
-  void showEndOfQuizDialog(bool isWin) async {
-    String soundFile = isWin ? 'assets/sounds/win.wav' : 'assets/sounds/lose.wav';
-    await player.play(UrlSource(soundFile));
+  void showEndOfQuizDialog() {
+    // Determine if the player won or lost
+    bool isWin = unshownCountries.isEmpty && lives > 0;
 
+    // Play the appropriate sound
+    String soundFile = isWin ? 'assets/sounds/win.wav' : 'assets/sounds/lose.wav';
+    player.play(UrlSource(soundFile));
+
+    // Show the end of quiz dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(isWin ? 'Well done!' : 'Game Over!'),
-          content: Text(isWin ? 'Quiz done' : 'You lost all your lives.'),
+          title: Text(isWin ? 'Congratulations!' : 'Game Over'),
+          content: Text(isWin ? 'You guessed all flags correctly!' : 'You have run out of lives.'),
           actions: <Widget>[
             TextButton(
               child: const Text('Restart Quiz'),
@@ -119,6 +128,7 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void restartQuiz() {
+    // Reset the quiz state
     unshownCountries = List.from(allCountries);
     currentQuestionNumber = 0;
     lives = 10;
@@ -126,6 +136,7 @@ class _QuizScreenState extends State<QuizScreen> {
     disabledOptions.clear();
     loadData();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -164,9 +175,9 @@ class _QuizScreenState extends State<QuizScreen> {
                 padding: const EdgeInsets.all(20.0),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 10.0,
-                  childAspectRatio: 5.0,
+                  crossAxisSpacing: 20.0,
+                  mainAxisSpacing: 20.0,
+                  childAspectRatio: 3.0,
                 ),
                 itemCount: answerOptions?.length ?? 0,
                 itemBuilder: (context, index) {
@@ -190,26 +201,32 @@ class _QuizScreenState extends State<QuizScreen> {
                       foregroundColor: MaterialStateProperty.all(Colors.black),
                     ),
                     // Inside the ElevatedButton's onPressed callback
-                    onPressed: disabledOptions.contains(answerOptions![index]['country_name']) || lives <= 0
-                        ? null
-                        : () async {
+                    // Inside the ElevatedButton's onPressed callback
+                    onPressed: () async {
+                      if (disabledOptions.contains(answerOptions![index]['country_name']) || lives <= 0) {
+                        return; // Do nothing if the option is disabled or no lives left
+                      }
+
                       if (answerOptions![index]['country_name'] == correctCountry!['country_name']) {
+                        // Handle correct answer
                         await player.play(UrlSource('assets/sounds/correct_answer.mp3'));
                         incorrectAnswers.clear();
                         disabledOptions.clear();
                         loadQuestion();
                       } else {
+                        // Handle incorrect answer
                         await player.play(UrlSource('assets/sounds/incorrect_answer.mp3'));
                         incorrectAnswers.add(answerOptions![index]['country_name']);
                         disabledOptions.add(answerOptions![index]['country_name']);
                         if (--lives <= 0) {
                           setState(() {});
-                          // Don't call showEndOfQuizDialog here, loadQuestion will handle it
+                          checkGameOver(); // Check if the game is over (lives are 0)
                         } else {
                           setState(() {});
                         }
                       }
                     },
+
 
                     child: Text(answerOptions![index]['country_name']),
                   );

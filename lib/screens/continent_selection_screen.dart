@@ -6,6 +6,7 @@ import 'package:audioplayers/audioplayers.dart';
 class ContinentSelectionScreen extends StatelessWidget {
   final AudioPlayer player = AudioPlayer();
 
+
   ContinentSelectionScreen({super.key});
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,7 @@ class ContinentSelectionScreen extends StatelessWidget {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.green,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
@@ -98,7 +99,7 @@ class ContinentSelectionScreen extends StatelessWidget {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.green,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),
@@ -142,7 +143,7 @@ class ContinentSelectionScreen extends StatelessWidget {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.green,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
                 ),

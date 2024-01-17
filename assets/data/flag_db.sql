@@ -179,7 +179,7 @@ INSERT INTO mytable(country_name,flag_image_path,continent) VALUES ('Bolivia','a
 INSERT INTO mytable(country_name,flag_image_path,continent) VALUES ('Brazil','assets/flags/south_america/brazil.png','South America');
 INSERT INTO mytable(country_name,flag_image_path,continent) VALUES ('Chile','assets/flags/south_america/chile.png','South America');
 INSERT INTO mytable(country_name,flag_image_path,continent) VALUES ('Colombia','assets/flags/south_america/colombia.png','South America');
-INSERT INTO mytable(country_name,flag_image_path,continent) VALUES ('Ecuador','assets/flags/south_america/ecudaor.png','South America');
+INSERT INTO mytable(country_name,flag_image_path,continent) VALUES ('Ecuador','assets/flags/south_america/ecuador.png','South America');
 INSERT INTO mytable(country_name,flag_image_path,continent) VALUES ('Guyana','assets/flags/south_america/guyana.png','South America');
 INSERT INTO mytable(country_name,flag_image_path,continent) VALUES ('Paraguay','assets/flags/south_america/paraguay.png','South America');
 INSERT INTO mytable(country_name,flag_image_path,continent) VALUES ('Peru','assets/flags/south_america/peru.png','South America');

@@ -1,19 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'continent_selection_screen.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'daily_question_screen.dart';
 
-class StartScreen extends StatelessWidget {
-  final AudioPlayer player = AudioPlayer();
+class StartScreen extends StatefulWidget {
+  @override
+  _StartScreenState createState() => _StartScreenState();
+}
 
-  StartScreen({super.key});
+class _StartScreenState extends State<StartScreen> {
+  final AudioPlayer player = AudioPlayer();
+  Color currentColor = Colors.white; // Default color
+
+  void changeColor(Color color) => setState(() => currentColor = color);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.brown.shade50,
+      backgroundColor: currentColor, // Use the selected color
       appBar: AppBar(
         actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.color_lens),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Pick a color!'),
+                    content: SingleChildScrollView(
+                      child: ColorPicker(
+                        pickerColor: currentColor,
+                        onColorChanged: changeColor,
+                      ),
+                    ),
+                    actions: <Widget>[
+                      ElevatedButton(
+                        child: const Text('Done'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () async {
@@ -45,7 +79,8 @@ class StartScreen extends StatelessWidget {
             ),
             const SizedBox(height: 50),
 
-            ElevatedButton(
+
+          ElevatedButton(
               onPressed: () async {
                 await player.play(UrlSource('assets/sounds/button_press.mp3'));
                 Navigator.of(context).push(MaterialPageRoute(
@@ -124,7 +159,8 @@ ElevatedButton(
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text('How To Play'),
-                      content: const Text('Here is how to play'),
+                      content: const Text('Click Play! Choose Your Continent! Learn. Them. Flags!'),
+
                       actions: <Widget>[
                         TextButton(
                           child: const Text('Close'),
@@ -138,21 +174,22 @@ ElevatedButton(
                   },
                 );
               },
-                        child: Text(
-                          'How To Play',
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontFamily: 'MyCustomFont',
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                        ),
+  child: Text(
+    'How To Play',
+    style: TextStyle(
+      fontSize: 30.0, // Text size
+      fontFamily: 'MyCustomFont',
+    ),
+  ),
+  style: ElevatedButton.styleFrom(
+    padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0), // Increased padding
+    backgroundColor: Colors.blue,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(30.0),
+    ),
+  ),
                       ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () async {
                 await player.play(UrlSource('assets/sounds/button_press.mp3'));
@@ -161,7 +198,7 @@ ElevatedButton(
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text('About Me'),
-                      content: const Text('This is a description about me.'),
+                      content: const Text('I am me'),
                       actions: <Widget>[
                         TextButton(
                           child: const Text('Close'),
@@ -175,9 +212,22 @@ ElevatedButton(
                   },
                 );
               },
-              child: const Text('About Me'),
+              child: Text(
+                'About Me',
+                style: TextStyle(
+                  fontSize: 30.0, // Text size
+                  fontFamily: 'MyCustomFont',
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0), // Increased padding
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () async {
                 await player.play(UrlSource('assets/sounds/button_press.mp3'));
@@ -186,7 +236,7 @@ ElevatedButton(
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: const Text('Contact Me'),
-                      content: const Text('Here is how you can contact me.'),
+                      content: const Text('Here is how you can contact me: Call or text 999'),
                       actions: <Widget>[
                         TextButton(
                           child: const Text('Close'),
@@ -200,7 +250,20 @@ ElevatedButton(
                   },
                 );
               },
-              child: const Text('Contact Me'),
+              child: Text(
+                'Contact Me',
+                style: TextStyle(
+                  fontSize: 30.0, // Text size
+                  fontFamily: 'MyCustomFont',
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0), // Increased padding
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
             ),
           ],
         ),

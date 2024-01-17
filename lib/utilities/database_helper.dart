@@ -18,6 +18,12 @@ class DatabaseHelper {
     return _database!;
   }
 
+  Future<List<Map<String, dynamic>>> fetchAllCountries() async {
+    Database db = await instance.database;
+    List<Map<String, dynamic>> maps = await db.query('mytable');
+    return maps;
+  }
+
   _initDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databaseName);

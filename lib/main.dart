@@ -12,7 +12,7 @@ class FlagQuizApp extends StatelessWidget {
         primarySwatch: Colors.green,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.blue.shade50),
+            backgroundColor: MaterialStateProperty.all(Colors.brown.shade50),
             foregroundColor: MaterialStateProperty.all(Colors.black),
             side: MaterialStateProperty.all(BorderSide(color: Colors.black)),
           ),
